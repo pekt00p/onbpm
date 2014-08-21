@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Ask us a question</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+    <body>
+
+    {% from "_formhelpers.html" import render_field %}
+        {% if comments %}
+            <p> <h2>Your question is received. Ask another one?</h2></p>
+        {% endif %}
+        {% for comment in comments %}
+        <p class="comments"> Asked question id: {{ comment }}</p>
+        {% endfor %}
+        <form method="POST" action="{{ url_for('add_comment') }}">
+            {{ form.csrf_token }}
+            <p>
+
+                {{ form.username.label }}<br>
+                {{ form.username }}<br>
+                {% for error in form.username.errors %}
+                    <p class="errors">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.emailAddress.label }}<br>
+                {{ form.emailAddress }}<br>
+                {% for error in form.emailAddress.errors %}
+                    <p class="errors">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.comment.label }}<br>
+                {{ form.comment(rows=5, cols=40) }}<br>
+                {% for error in form.comment.errors %}
+                    <p class="errors">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.recaptcha }}
+                {% for error in form.recaptcha.errors %}
+                    <p class="errors">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+
+            </p>
+            <p>
+                <input class="send" type="submit" value="Send Question">
+            </p>
+        </form>
+    </body>
+</html>
